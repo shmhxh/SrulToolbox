@@ -3,7 +3,7 @@ import os
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QWidget, 
                             QPushButton, QLabel, QTabWidget, QTextEdit,
                             QFileDialog, QHBoxLayout, QGridLayout, QButtonGroup)
-from PyQt6.QtCore import QProcess, QProcessEnvironment
+from PyQt6.QtCore import QProcess, QProcessEnvironment, QPropertyAnimation, QEasingCurve
 import time
 
 class FlashTool(QMainWindow):
@@ -109,23 +109,42 @@ class FlashTool(QMainWindow):
         # ADB命令按钮
         self.btn_devices = QPushButton("列出设备")
         self.btn_devices.clicked.connect(self.run_adb_devices)
+        self.add_button_animation(self.btn_devices)
         layout.addWidget(self.btn_devices)
         
         self.btn_reboot_bootloader = QPushButton("重启到Fastboot")
         self.btn_reboot_bootloader.clicked.connect(self.run_adb_reboot_bootloader)
+        self.add_button_animation(self.btn_reboot_bootloader)
         layout.addWidget(self.btn_reboot_bootloader)
         
         self.btn_reboot_recovery = QPushButton("重启到Recovery")
         self.btn_reboot_recovery.clicked.connect(self.run_adb_reboot_recovery)
+        self.add_button_animation(self.btn_reboot_recovery)
         layout.addWidget(self.btn_reboot_recovery)
 
         self.btn_reboot_system = QPushButton("重启到System")
         self.btn_reboot_system.clicked.connect(self.run_adb_reboot_system)
+        self.add_button_animation(self.btn_reboot_system)
         layout.addWidget(self.btn_reboot_system)
         
         self.btn_install_apk = QPushButton("安装APK")
         self.btn_install_apk.clicked.connect(self.install_apk)
+        self.add_button_animation(self.btn_install_apk)
         layout.addWidget(self.btn_install_apk)
+        
+    def add_button_animation(self, button):
+        animation = QPropertyAnimation(button, b"geometry")
+        animation.setDuration(100)
+        animation.setEasingCurve(QEasingCurve.Type.OutQuad)
+        
+        def animate_button():
+            original_geometry = button.geometry()
+            animation.setStartValue(original_geometry)
+            animation.setEndValue(original_geometry.adjusted(0, 0, 0, -5))
+            animation.start()
+            
+        button.pressed.connect(animate_button)
+        button.released.connect(lambda: animation.setDirection(QPropertyAnimation.Direction.Backward) or animation.start())
     
     def setup_fastboot_tab(self):
         layout = QVBoxLayout(self.fastboot_tab)
@@ -133,22 +152,27 @@ class FlashTool(QMainWindow):
         # Fastboot命令按钮
         self.btn_devices_fastboot = QPushButton("列出Fastboot设备")
         self.btn_devices_fastboot.clicked.connect(self.run_fastboot_devices)
+        self.add_button_animation(self.btn_devices_fastboot)
         layout.addWidget(self.btn_devices_fastboot)
         
         self.btn_flash_recovery = QPushButton("刷入Recovery")
         self.btn_flash_recovery.clicked.connect(self.flash_recovery)
+        self.add_button_animation(self.btn_flash_recovery)
         layout.addWidget(self.btn_flash_recovery)
         
         self.btn_flash_system = QPushButton("刷入System")
         self.btn_flash_system.clicked.connect(self.flash_system)
+        self.add_button_animation(self.btn_flash_system)
         layout.addWidget(self.btn_flash_system)
 
         self.btn_flash_boot = QPushButton("刷入Boot")
         self.btn_flash_boot.clicked.connect(self.flash_boot)
+        self.add_button_animation(self.btn_flash_boot)
         layout.addWidget(self.btn_flash_boot)
         
         self.btn_reboot_system = QPushButton("重启到System")
         self.btn_reboot_system.clicked.connect(self.run_fastboot_reboot_system)
+        self.add_button_animation(self.btn_reboot_system)
         layout.addWidget(self.btn_reboot_system)
     
     def setup_root_tab(self):
@@ -157,6 +181,7 @@ class FlashTool(QMainWindow):
         # Root命令按钮
         self.btn_root = QPushButton("开启Root之旅")
         self.btn_root.clicked.connect(self.start_root_journey)
+        self.add_button_animation(self.btn_root)
         layout.addWidget(self.btn_root)
         
         # 下方隐藏控件
@@ -164,19 +189,21 @@ class FlashTool(QMainWindow):
         layout.addLayout(layout1)
         layout3 = QGridLayout(self.central_widget)
         layout1.addLayout(layout3)
+        
         # Root管理器选择
         self.root_manager_label = QLabel("选择Root管理器:")
         layout.addWidget(self.root_manager_label)
-        self.root_manager_label.setVisible(False),
+        self.root_manager_label.setVisible(False)
         
         # 管理器按钮组
         self.manager_button_group = QButtonGroup()
         
         self.magisk_label = QLabel("Magisk")
         layout.addWidget(self.magisk_label)
-        self.magisk_label.setVisible(False),
+        self.magisk_label.setVisible(False)
         self.btn_magisk = QPushButton("选择")
         self.btn_magisk.setCheckable(True)
+        self.add_button_animation(self.btn_magisk)
         layout.addWidget(self.btn_magisk)
         self.manager_button_group.addButton(self.btn_magisk)
         self.btn_magisk.setVisible(False)
@@ -184,9 +211,10 @@ class FlashTool(QMainWindow):
         
         self.apatch_label = QLabel("Apatch")
         layout.addWidget(self.apatch_label)
-        self.apatch_label.setVisible(False),
+        self.apatch_label.setVisible(False)
         self.btn_apatch = QPushButton("选择")
         self.btn_apatch.setCheckable(True)
+        self.add_button_animation(self.btn_apatch)
         layout.addWidget(self.btn_apatch)
         self.manager_button_group.addButton(self.btn_apatch)
         self.btn_apatch.setVisible(False)
@@ -194,9 +222,10 @@ class FlashTool(QMainWindow):
         
         self.kernelsu_label = QLabel("KernelSU")
         layout.addWidget(self.kernelsu_label)
-        self.kernelsu_label.setVisible(False),
+        self.kernelsu_label.setVisible(False)
         self.btn_kernelsu = QPushButton("选择")
         self.btn_kernelsu.setCheckable(True)
+        self.add_button_animation(self.btn_kernelsu)
         layout.addWidget(self.btn_kernelsu)
         self.manager_button_group.addButton(self.btn_kernelsu)
         self.btn_kernelsu.setVisible(False)
@@ -212,11 +241,11 @@ class FlashTool(QMainWindow):
         self.end_root.clicked.connect(self.exit)
     
     def run_adb_command(self, command):
-        self.log_output.append(f"执行命令: ./driver/adb {command}")
+        self.log_output.append(f"执行命令: adb {command}")
         env = QProcessEnvironment.systemEnvironment()
         env.insert("PATH", f"{os.getcwd()};{env.value('PATH')}")
         self.adb_process.setProcessEnvironment(env)
-        self.adb_process.start("adb", command.split())
+        self.adb_process.start("./driver/adb", command.split())
         
     def detect_device_model(self):
         """检测连接的设备型号"""
