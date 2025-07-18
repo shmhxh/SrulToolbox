@@ -212,7 +212,7 @@ class FlashTool(QMainWindow):
         self.end_root.clicked.connect(self.exit)
     
     def run_adb_command(self, command):
-        self.log_output.append(f"执行命令: adb {command}")
+        self.log_output.append(f"执行命令: ./driver/adb {command}")
         env = QProcessEnvironment.systemEnvironment()
         env.insert("PATH", f"{os.getcwd()};{env.value('PATH')}")
         self.adb_process.setProcessEnvironment(env)
@@ -220,11 +220,11 @@ class FlashTool(QMainWindow):
         
     def detect_device_model(self):
         """检测连接的设备型号"""
-        self.adb_process.start("adb", "shell getprop ro.product.model".split())
+        self.adb_process.start("./driver/adb", "shell getprop ro.product.model".split())
         self.adb_process.waitForFinished()
         model = self.adb_process.readAllStandardOutput().data().decode().strip()
         
-        self.adb_process.start("adb", "shell getprop ro.product.manufacturer".split())
+        self.adb_process.start("./driver/adb", "shell getprop ro.product.manufacturer".split())
         self.adb_process.waitForFinished()
         manufacturer = self.adb_process.readAllStandardOutput().data().decode().strip()
         
@@ -241,7 +241,7 @@ class FlashTool(QMainWindow):
         env = QProcessEnvironment.systemEnvironment()
         env.insert("PATH", f"{os.getcwd()};{env.value('PATH')}")
         self.fastboot_process.setProcessEnvironment(env)
-        self.fastboot_process.start("fastboot", command.split())
+        self.fastboot_process.start("./driver/fastboot", command.split())
 
     def run_adb_devices(self):
         self.run_adb_command("devices")
