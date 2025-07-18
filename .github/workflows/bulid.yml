@@ -20,15 +20,15 @@ jobs:
           spec: 'main.py'
           upload_exe_with_name: 'srultoolbox'
           options: --onefile, --name "srultoolbox", --windowed, --add-data "apks;apks"
-  pyinstaller-build-linux:
-    runs-on: linux-latest
-    steps:
-      - name: Create Executable
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          python_ver: '3.12'
-          spec: 'main.py'
-          upload_exe_with_name: 'srultoolbox'
+#  pyinstaller-build-linux:
+#    runs-on: linux-latest
+#    steps:
+#      - name: Create Executable
+#        uses: sayyid5416/pyinstaller@v1
+#        with:
+#          python_ver: '3.12'
+#          spec: 'main.py'
+#          upload_exe_with_name: 'srultoolbox'
           options: --onefile, --name "srultoolbox", --windowed, --add-data "apks:apks"
   pyinstaller-build-macos:
     runs-on: macos-latest
