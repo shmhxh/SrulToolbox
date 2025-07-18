@@ -285,7 +285,7 @@ class FlashTool(QMainWindow):
             self.run_fastboot_command(f"flash boot {file_path}")
 
     def run_root_apatch(self):
-        self.run_adb_command(f"install ./Apatch.apk")
+        self.run_adb_command(f"install ./apks/Apatch.apk")
         self.log_output.append("请在手机上点击确认，打开Apatch并修补镜像")
         file_path, _ = QFileDialog.getOpenFileName(self, "选择修补好的Boot镜像", "", "镜像文件 (*.img)")
         if file_path:
@@ -293,7 +293,7 @@ class FlashTool(QMainWindow):
         self.end_root_journey()
     
     def run_root_kernelsu(self):
-        self.run_adb_command(f"install ./KernelSU.apk")
+        self.run_adb_command(f"install ./apks/KernelSU.apk")
         self.log_output.append("请在手机上点击确认，打开KernelSU并修补镜像")
         file_path, _ = QFileDialog.getOpenFileName(self, "选择修补好的Boot镜像", "", "镜像文件 (*.img)")
         if file_path:
@@ -301,7 +301,7 @@ class FlashTool(QMainWindow):
         self.end_root_journey()
 
     def run_root_magisk(self):
-        self.run_adb_command(f"install ./Magisk.apk")
+        self.run_adb_command(f"install ./apks/Magisk.apk")
         self.log_output.append("请在手机上点击确认，打开Magisk并修补镜像")
         file_path, _ = QFileDialog.getOpenFileName(self, "选择修补好的Boot镜像", "", "镜像文件 (*.img)")
         if file_path:
