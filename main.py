@@ -3,7 +3,8 @@ import os
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QWidget, 
                             QPushButton, QLabel, QTabWidget, QTextEdit,
                             QFileDialog, QHBoxLayout, QGridLayout, QButtonGroup)
-from PyQt6.QtCore import QProcess, QProcessEnvironment, QPropertyAnimation, QEasingCurve
+from PyQt6.QtCore import QProcess, QProcessEnvironment, QPropertyAnimation, QEasingCurve, QSize
+from PyQt6.QtGui import QIcon
 import time
 
 class FlashTool(QMainWindow):
@@ -230,6 +231,22 @@ class FlashTool(QMainWindow):
         self.manager_button_group.addButton(self.btn_kernelsu)
         self.btn_kernelsu.setVisible(False)
         self.btn_kernelsu.clicked.connect(self.run_root_kernelsu)
+
+        # 添加Magisk图标按钮
+        self.btn_magisk_icon = QIcon("./icon/magisk.png")
+        layout.addWidget(self.btn_magisk_icon)
+        self.btn_magisk_icon.setVisible(False)
+        
+        # 添加KernelSU图标按钮
+        self.btn_kernelsu_icon = QIcon("./icon/kernelsu.png")
+        layout.addWidget(self.btn_kernelsu_icon)
+        self.btn_kernelsu_icon.setVisible(False)
+
+        
+        # 添加APatch图标按钮
+        self.btn_apatch_icon = QIcon("./icon/apatch.png")
+        layout.addWidget(self.btn_apatch_icon)
+        self.btn_apatch_icon.setVisible(False)
         
         # 默认选中第一个
         self.btn_magisk.setChecked(True)
