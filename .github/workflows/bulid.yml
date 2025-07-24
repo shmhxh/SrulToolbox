@@ -20,12 +20,12 @@ jobs:
           spec: 'main.py'
           upload_exe_with_name: 'srultoolbox'
           options: --onefile, --name "srultoolbox", --windowed, --add-data "apks;apks"
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files:  build/*
-          draft: true
-          fail_on_unmatched_files: true
+#      - name: Release
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          files:  build/*
+#          draft: true
+#          fail_on_unmatched_files: true
 #  pyinstaller-build-linux:
 #    runs-on: linux-latest
 #    steps:
